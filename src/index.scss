@@ -7,7 +7,11 @@
 
   --red: #ff6155;
 
-  --gradient: linear-gradient(#ff6a3a, #ff527b);
+  --gradient: linear-gradient(
+    90deg,
+    rgba(255, 106, 58, 1) 0%,
+    rgba(255, 82, 123, 1) 100%
+  );
 }
 
 body {
@@ -55,4 +59,11 @@ input {
 img {
   display: flex;
   max-width: 100%;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
