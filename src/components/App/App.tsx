@@ -1,5 +1,18 @@
+import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
+import * as Yup from "yup";
 import css from "./App.module.scss";
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Valid email required').required()
+})
+
 export default function App() {
+
+  const submitHandler = async (value: {email: string}, props: FormikHelpers<{email: string}>) => {
+    await new Promise((a) => setTimeout(a, 2000))
+    console.log(value);
+    props.resetForm();
+  }
   return (
     <div className={css.wrapper}>
       <div className={css.contentBlock}>
@@ -27,21 +40,31 @@ export default function App() {
             </ul>
           </div>
           <div className={css.formBlock}>
-            <form className={css.form}>
-              <label className={css.form__label} htmlFor="email">
-                Email address
-              </label>
-              <input
-                className={css.form__input}
+            <Formik onSubmit={submitHandler} initialValues={{email: ""}} validationSchema={validationSchema}>
+              {({isSubmitting, errors, touched}) => (<Form className={css.form}>
+                <div className={css.labelBlock}>
+                  <label className={css.form__label} htmlFor="email">
+                  Email address
+                  </label>
+
+                  <ErrorMessage className={css.errorLabel} component={'span'} name="email" />
+                </div>
+                
+              <Field
+                className={`${css.form__input} ${(errors.email && touched.email) ? css.errorInput : "" }`}
                 type="email"
                 name="email"
                 id="email"
                 placeholder="email@company.com"
               />
+    
               <button className={css.form__button} type="submit">
-                Subscribe to monthly newsletter
+                {isSubmitting ? 'Sending...'   : 'Subscribe to monthly newsletter'}
               </button>
-            </form>
+              </Form>)}
+              
+            </Formik>
+            
           </div>
         </div>
       </div>

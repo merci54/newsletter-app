@@ -140,3 +140,27 @@
     }
   }
 }
+
+
+
+.labelBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.errorLabel {
+  @include text-preset-3;
+  color: var(--red);
+}
+
+.errorInput {
+  background-color: #ffe7e5;
+  color: var(--red);
+
+
+  border: 1px solid var(--red);
+   &:hover,
+    &:active {
+      border: 1px solid var(--red);
+    }
+}
