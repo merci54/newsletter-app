@@ -4,7 +4,7 @@ export default function App() {
     <div className={css.wrapper}>
       <div className={css.contentBlock}>
         <div className={css.imageBlock}>
-          {/* <img className={css.imageBlock__image} src="/image.png" alt="" /> */}
+          <img className={css.imageBlock__image} src="/image.svg" alt="" />
         </div>
         <div className={css.container}>
           <div className={css.textBlock}>
@@ -14,15 +14,15 @@ export default function App() {
             </p>
             <ul className={css.list}>
               <li className={css.list__item}>
-                <img src="/check.svg" alt="check icon" />
+                <img className={css.list__icon} src="/check.svg" alt="check icon" />
                 <p>Product discovery and building what matters</p>
               </li>
               <li className={css.list__item}>
-                <img src="/check.svg" alt="check icon" />
+                <img className={css.list__icon} src="/check.svg" alt="check icon" />
                 <p>Measuring to ensure updates are a success</p>
               </li>
               <li className={css.list__item}>
-                <img src="/check.svg" alt="check icon" /> <p>And much more!</p>
+                <img className={css.list__icon} src="/check.svg" alt="check icon" /> <p>And much more!</p>
               </li>
             </ul>
           </div>
