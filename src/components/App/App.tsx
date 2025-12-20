@@ -1,17 +1,28 @@
 import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
 import css from "./App.module.scss";
+import { sendEmail } from "../../utils/sendMail";
 
 const validationSchema = Yup.object({
-  email: Yup.string().email('Valid email required').required()
+  email: Yup.string().email('Valid email required').required('Valid email required')
 })
 
 export default function App() {
 
   const submitHandler = async (value: {email: string}, props: FormikHelpers<{email: string}>) => {
-    await new Promise((a) => setTimeout(a, 2000))
-    console.log(value);
-    props.resetForm();
+    try {
+     await sendEmail({
+  
+  email: value.email,
+ 
+});
+      console.log(value.email);
+      props.resetForm();
+    } catch (error) {
+      console.error(error)
+    }
+    
+    
   }
   return (
     <div className={css.wrapper}>
