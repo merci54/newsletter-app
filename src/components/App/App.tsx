@@ -2,20 +2,22 @@ import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
 import css from "./App.module.scss";
 import { sendEmail } from "../../utils/sendMail";
+import { useState } from "react";
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Valid email required').required('Valid email required')
 })
 
+
 export default function App() {
+  const [isSuccess, setIsSuccess] = useState<boolean>(true);
+  const [email, setEmail] = useState<null | string>(null)
 
   const submitHandler = async (value: {email: string}, props: FormikHelpers<{email: string}>) => {
     try {
-     await sendEmail({
-  
-  email: value.email,
- 
-});
+      await sendEmail({email: value.email});
+      setEmail(value.email);
+      setIsSuccess(true);
       console.log(value.email);
       props.resetForm();
     } catch (error) {
@@ -26,7 +28,7 @@ export default function App() {
   }
   return (
     <div className={css.wrapper}>
-      <div className={css.contentBlock}>
+      {!isSuccess ?  <div className={css.contentBlock}>
         <div className={css.imageBlock}>
           <img className={css.imageBlock__image} src="/image.svg" alt="" />
         </div>
@@ -78,7 +80,14 @@ export default function App() {
             
           </div>
         </div>
-      </div>
+      </div>  :  <div className={css.successBlock}>
+                <img src="checkbig.svg" alt="check big icon" className={css.icon} />
+                <h1 className={css.title}>Thanks for subscribing!</h1>
+                <p className={css.description}>A confirmation email has been sent to {email} Please open it and click the button inside to confirm your subscription</p>
+                <button className={css.button} onClick={() => setIsSuccess(false)}>Dismiss message</button>
+      </div>}
+      
+     
     </div>
   );
 }
