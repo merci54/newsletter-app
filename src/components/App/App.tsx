@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import css from "./App.module.scss";
 import { sendEmail } from "../../utils/sendMail";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Valid email required').required('Valid email required')
@@ -10,7 +11,7 @@ const validationSchema = Yup.object({
 
 
 export default function App() {
-  const [isSuccess, setIsSuccess] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [email, setEmail] = useState<null | string>(null)
 
   const submitHandler = async (value: {email: string}, props: FormikHelpers<{email: string}>) => {
@@ -21,7 +22,8 @@ export default function App() {
       console.log(value.email);
       props.resetForm();
     } catch (error) {
-      console.error(error)
+      console.error(error);
+      toast.error("Error sending email. Check you email and try again.")
     }
     
     
@@ -80,11 +82,15 @@ export default function App() {
             
           </div>
         </div>
-      </div>  :  <div className={css.successBlock}>
-                <img src="checkbig.svg" alt="check big icon" className={css.icon} />
+      </div>  :  
+      <div className={css.successBlock}>
+        <div className={css.successBlock__content}>
+                <img src="bigcheck.svg" alt="check big icon" className={css.icon} />
                 <h1 className={css.title}>Thanks for subscribing!</h1>
-                <p className={css.description}>A confirmation email has been sent to {email} Please open it and click the button inside to confirm your subscription</p>
-                <button className={css.button} onClick={() => setIsSuccess(false)}>Dismiss message</button>
+                <p className={css.description}>A confirmation email has been sent to <span className={css.description__email}>{email}.</span> Please open it and click the button inside to confirm your subscription</p>
+        </div>
+               
+          <button className={css.button} onClick={() => setIsSuccess(false)}>Dismiss message</button>
       </div>}
       
      
